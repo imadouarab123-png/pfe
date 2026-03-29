@@ -1,0 +1,107 @@
+/* Dashboard container */
+#cassier-dashboard {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  background-color: #f7f7f7;
+  min-height: 100vh;
+}
+
+/* Header */
+#cassier-header {
+  margin-bottom: 20px;
+}
+
+#cassier-header h1 {
+  color: #007bff;
+  font-size: 28px;
+}
+
+/* Table container */
+#cassier-table-container {
+  overflow-x: auto;
+}
+
+/* Table styling */
+#cassier-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+#cassier-table th, #cassier-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+}
+
+#cassier-table th {
+  background-color: #007bff;
+  color: white;
+}
+
+#cassier-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+#cassier-table tr:hover {
+  background-color: #e0f7ff;
+}
+
+/* Status badges */
+.status-badge {
+  padding: 4px 8px;
+  border-radius: 4px;
+  color: white;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+.status-approved {
+  background-color: #28a745;
+}
+
+.status-pending {
+  background-color: #ffc107;
+  color: #212529;
+}
+
+/* Empty message */
+.empty-message {
+  text-align: center;
+  padding: 15px;
+  color: #888;
+  font-style: italic;
+}
+
+
+#approve-all-container {
+  margin-top: 20px;
+  display: flex;
+  gap: 15px; /* المسافة بين الأزرار */
+  justify-content: center; /* تحريك الأزرار للوسط */
+  align-items: center;
+}
+
+#approve-all-btn {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  font-size: 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+#approve-all-btn:hover {
+  background-color: #218838;
+}
+
+.empty-message {
+  text-align: center;
+  padding: 10px;
+  font-style: italic;
+  color: #888;
+}
+

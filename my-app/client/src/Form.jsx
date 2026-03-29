@@ -1,6 +1,9 @@
 import { useState } from "react";
 import "./Form.css";
 import { Link } from "react-router-dom";
+import logo from "./assets/logo2.jpg";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Form() {
   
@@ -93,6 +96,7 @@ function Form() {
 
   if (Object.keys(validationErrors).length > 0) {
     setErrors(validationErrors);
+    toast.error("Something went wrong!");
   } else {
     try {
       const response = await fetch("http://localhost:5000/api/refund", {
@@ -106,8 +110,18 @@ function Form() {
       const data = await response.json();
       console.log(data);
 
-      alert("Data sent to server successfully!");
+     toast.success("Request sent successfully!");
+       setFormData({
+      full_name: "",
+      customer_identifier: "",
+      transaction_number: "",
+      payment_date: "",
+      amount: "",
+      reason: "",
+      phone: "",
+    });
 
+    setErrors({});
     } catch (error) {
       console.error("Error:", error);
     }
@@ -118,10 +132,12 @@ function Form() {
   return (
     <div className="container">
      
-
+      
       <form onSubmit={handleSubmit}>
         
-     
+   <div className="logo-container">
+  <img src={logo} alt="logo" className="logo" />
+</div>
          <h2>demonde de romborsement</h2>
 
         <div className="input-group">
@@ -205,6 +221,10 @@ function Form() {
 
         <button type="submit">Submit</button>
       </form>
+        <ToastContainer   
+        position="top-center"
+          autoClose={3000}
+         theme="colored" />
       <Link to="/Agent">go to agent</Link>
       </div>
    

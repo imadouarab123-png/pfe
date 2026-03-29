@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
 import "./Agent.css";
+import { Link } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Agent() {
   const [demandes, setDemandes] = useState([]);
@@ -21,7 +24,7 @@ function Agent() {
       .then((data) => setDoublePayments(data))
       .catch((err) => console.error("Erreur payments:", err));
   }, []);
-
+/*ta3 imad
   // عند الضغط على طلب
   const handleRowClick = (demande) => {
     setSelectedDemande(demande);
@@ -36,12 +39,62 @@ function Agent() {
 
     setFilteredPayments(filtered);
   };
+*/
+//ta3 yanis 
+const handleRowClick = (demande) => {
+  setSelectedDemande(demande);
 
-  // Approve
-  const handleApprove = () => {
-    if (!selectedDemande) return;
-    if (!window.confirm(`Approve request of ${selectedDemande.full_name}?`)) return;
+  const filtered = doublePayments.filter((p) => {
+    // تحويل التاريخ إلى yyyy-mm-dd
+    const datePayment = new Date(p.payment_date).toISOString().split("T")[0];
+    const dateDemande = new Date(demande.payment_date).toISOString().split("T")[0];
 
+    // مقارنة customer_identifier + amount + التاريخ
+    return (
+      p.customer_identifier === demande.customer_identifier &&
+      Number(p.amount) === Number(demande.amount) &&
+      datePayment === dateDemande
+    );
+  });
+
+  console.log("Filtered Payments:", filtered); // لمراجعة النتائج في الكونسول
+  setFilteredPayments(filtered);
+};
+  // Approve ta3 immad sans backend
+
+   const handleApprove = async () => {
+  if (!selectedDemande) return;
+
+  // لازم يكون دفع مرتين
+  if (filteredPayments.length < 1) {
+    alert("This is not a duplicate payment ❌");
+    return;
+  }
+
+  if (!window.confirm(`Approve request of ${selectedDemande.full_name}?`)) return;
+
+  try {
+    const res = await fetch("http://localhost:5000/api/approve", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        id: selectedDemande.id, // ⬅️ مهم جدًا
+        full_name: selectedDemande.full_name,
+        customer_identifier: selectedDemande.customer_identifier,
+        transaction_number: selectedDemande.transaction_number,
+        payment_date: selectedDemande.payment_date,
+        amount: selectedDemande.amount,
+        phone: selectedDemande.phone,
+      }),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.error || "Error saving");
+    }
+
+    // تحديث الواجهة
     setDemandes((prev) =>
       prev.map((d) =>
         d.id === selectedDemande.id ? { ...d, status: "approved" } : d
@@ -50,9 +103,12 @@ function Agent() {
 
     setSelectedDemande(null);
     setFilteredPayments([]);
-    alert("Request Approved");
-  };
-
+    toast.success("Saved in database ✅");
+  } catch (err) {
+    console.error(err);
+    toast.error(err.message || "Server error ❌");
+  }
+};
   // Reject
   const handleReject = () => {
     if (!selectedDemande) return;
@@ -73,6 +129,7 @@ function Agent() {
     <>
       <header className="header">
         <h1>Agent Dashboard</h1>
+         <img src="/photo_2026-03-06_00-59-26.jpg" alt="" />
       </header>
 
       <main>
@@ -169,13 +226,13 @@ function Agent() {
 
         {/* ACTION BUTTONS */}
         <div className="action-buttons">
-          <button
-            className="btn approve"
-            disabled={!selectedDemande || selectedDemande.status}
-            onClick={handleApprove}
-          >
-            sent_to_finance
-          </button>
+              <button
+  className="btn approve"
+  disabled={!selectedDemande || selectedDemande.status === "approved"} 
+  onClick={handleApprove}
+>
+  sent_to_finance
+</button>
           <button
             className="btn reject"
             disabled={!selectedDemande || selectedDemande.status}
@@ -185,7 +242,8 @@ function Agent() {
           </button>
         </div>
       </main>
-
+ <Link to="/Finance">go to f</Link>
+ <ToastContainer position="top-center" autoClose={3000} />
       <footer>
         <p>Prototype © 2026</p>
       </footer>
