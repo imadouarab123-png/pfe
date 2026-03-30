@@ -1,9 +1,11 @@
 body{
   margin:0;
   font-family: Arial, Helvetica, sans-serif;
-  background:#f2f4f7;
 }
-
+#root{
+ 
+  height: 100%;
+}
 /* وضع الكارد في الوسط */
 .container{
   min-height:100vh;
@@ -11,8 +13,13 @@ body{
   justify-content:center;
   align-items:center;
   flex-direction:column;
+ background: linear-gradient(110deg,rgba(2, 0, 36, 1) 0%, rgba(1, 1, 122, 1) 82%, rgba(1, 1, 122, 1) 68%);
 }
-
+*{
+  padding: 0px;
+  margin: 0px;
+  box-sizing: border-box;
+}
 /* الكارد */
 form{
   width:400px;
@@ -26,17 +33,19 @@ form{
 h2{
   text-align:center;
   margin-bottom:25px;
-  color:#333;
+  color:#333333;
 }
 
 /* المسافات بين الحقول */
 .input-group{
+  
   margin-bottom:15px;
 }
 
 /* inputs */
 input,
 textarea{
+  color: black;
   width:100%;
   padding:12px;
   border:1px solid #dcdfe4;
@@ -90,10 +99,11 @@ button:hover{
   justify-content: center;
   align-items: center;
   margin-bottom: 20px;
+  
 }
 
 .logo {
-  width: 200px; 
+  width: 80px; 
     /* كبر الحجم هنا */
-  height: auto;
+ 
 }
